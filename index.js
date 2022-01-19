@@ -9,8 +9,8 @@ http
     const params = url.parse(req.url, true).query;
     const name = params.archivo;
     const content = params.contenido;
-    const newName=params.archivoNuevo;
-    const delFile=params.archivoEliminar;
+    const newName = params.archivoNuevo;
+    const delFile = params.archivoEliminar;
 
     if (req.url.includes("/crear")) {
       console.log("creando");
@@ -20,30 +20,27 @@ http
       });
     }
     if (req.url.includes("/leer")) {
-
-
       fs.readFile(name, (err, data) => {
-          if(!err){
-            res.write(`Contenido:\n${data}`);
-          }
-          else{
-            res.write(err);
-          }
-          res.end();
+        if (!err) {
+          res.write(`Contenido:\n${data}`);
+        } else {
+          res.write(err);
+        }
+        res.end();
       });
     }
     if (req.url.includes("/renombrar")) {
-        console.log(newName);
-        fs.rename(name,newName , (err, data) => {
-            res.write(`Archivo ${name} renombrado por ${newName}`);
-            res.end();
-            });
+      console.log(newName);
+      fs.rename(name, newName, (err, data) => {
+        res.write(`Archivo ${name} renombrado por ${newName}`);
+        res.end();
+      });
     }
     if (req.url.includes("/eliminar")) {
-        fs.unlink(delFile, (err, data) => {
-            res.write(`Archivo ${nombre} eliminado con éxito`)
-            res.end()
-            })
+      fs.unlink(delFile, (err, data) => {
+        res.write(`Archivo ${nombre} eliminado con éxito`);
+        res.end();
+      });
     }
   })
   .listen(8080, () => {
